@@ -1,6 +1,5 @@
 package com.example.josu.cleverbot;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
@@ -13,37 +12,30 @@ import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.ForegroundColorSpan;
 import android.view.Gravity;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
-
 import com.example.josu.cleverbot.lib.ChatterBot;
 import com.example.josu.cleverbot.lib.ChatterBotFactory;
 import com.example.josu.cleverbot.lib.ChatterBotSession;
 import com.example.josu.cleverbot.lib.ChatterBotType;
-
 import java.util.ArrayList;
 import java.util.Locale;
 
 
 public class Principal extends ActionBarActivity implements TextToSpeech.OnInitListener{
 
-    private EditText et;
-    private EditText tv;
+    private EditText et, tv;
     private TextToSpeech tts;
-    private float tono=1;
-    private float vel=1;
+    private float tono=1, vel=1;
     private boolean sipuedo;
     private static int CTE=0;
     private static int HABLA=1;
     private ImageButton ib;
-    private String respuesta;
-    private String idioma;
-    private boolean spanish;
+    private String respuesta,  idioma;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +46,6 @@ public class Principal extends ActionBarActivity implements TextToSpeech.OnInitL
         tv = (EditText)findViewById(R.id.tv);
         ib = (ImageButton)findViewById(R.id.ibHablar);
         idioma = "es-ES";
-        spanish = true;
         Intent intent = new Intent();
         intent.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
         startActivityForResult(intent, CTE);
@@ -138,9 +129,7 @@ public class Principal extends ActionBarActivity implements TextToSpeech.OnInitL
 
     class HiloBot extends AsyncTask<String, Void, String> {
 
-        private EditText tv = (EditText)findViewById(R.id.tv);
-
-        public String prueba(String s) throws Exception {
+        public String contactar(String s) throws Exception {
             ChatterBotFactory factory = new ChatterBotFactory();
             ChatterBot bot1= factory.create(ChatterBotType.CLEVERBOT);
             ChatterBotSession bot1session=bot1.createSession();
@@ -152,7 +141,7 @@ public class Principal extends ActionBarActivity implements TextToSpeech.OnInitL
             String s = params[0];
             String respuesta = "";
             try {
-                respuesta = prueba(s);
+                respuesta = contactar(s);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -162,7 +151,6 @@ public class Principal extends ActionBarActivity implements TextToSpeech.OnInitL
         @Override
         protected void onPostExecute(String resp) {//Hebra UI
             super.onPostExecute(resp);
-            resp = convertFromUTF8(resp);
             tv.append(cambiarColor("\nRobot", Color.GREEN));
             tv.append(cambiarColor("\n" + resp + "\n", Color.BLACK));
             tv.setGravity(Gravity.BOTTOM);
@@ -192,7 +180,7 @@ public class Principal extends ActionBarActivity implements TextToSpeech.OnInitL
     public void hablar(){
         Intent i = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
         i.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, idioma);
-        i.putExtra(RecognizerIntent.EXTRA_PROMPT,"Habla ahora");
+        i.putExtra(RecognizerIntent.EXTRA_PROMPT, getResources().getString(R.string.action_habla));
         i.putExtra(RecognizerIntent.EXTRA_SPEECH_INPUT_POSSIBLY_COMPLETE_SILENCE_LENGTH_MILLIS,3000);
         startActivityForResult(i,HABLA);
     }
@@ -203,7 +191,7 @@ public class Principal extends ActionBarActivity implements TextToSpeech.OnInitL
             ib.setImageDrawable(getResources().getDrawable(R.drawable.ic_action_mic));
             ib.setTag("mic");
         }else{
-            Toast.makeText(getApplicationContext(), "no se puede reproducir", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), getResources().getString(R.string.err_reproduccion), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -212,26 +200,5 @@ public class Principal extends ActionBarActivity implements TextToSpeech.OnInitL
         ForegroundColorSpan fcs = new ForegroundColorSpan(color);
         sb.setSpan(fcs, 0, cadena.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
         return sb;
-    }
-
-    public static String convertFromUTF8(String s) {
-        String out = null;
-        try {
-            out = new String(s.getBytes(), "ISO-8859-1");
-        } catch (java.io.UnsupportedEncodingException e) {
-            return null;
-        }
-        return out;
-    }
-
-    // convert from internal Java String format -> UTF-8
-    public static String convertToUTF8(String s) {
-        String out = null;
-        try {
-            out = new String(s.getBytes("UTF-8"), "ISO-8859-1");
-        } catch (java.io.UnsupportedEncodingException e) {
-            return null;
-        }
-        return out;
     }
 }

@@ -2,8 +2,9 @@
 <resources>
 
     <string name="app_name">CleverBot</string>
-    <string name="hello_world">Hello world!</string>
     <string name="action_esp">Español</string>
     <string name="action_ing">English</string>
+    <string name="action_habla">Habla ahora</string>
+    <string name="err_reproduccion">No se puede reproducir</string>
 
 </resources>

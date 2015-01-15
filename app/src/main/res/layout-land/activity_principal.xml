@@ -22,7 +22,8 @@
             android:editable="false"
             android:gravity="bottom"
             android:background="@drawable/background"
-            android:focusable="false" />
+            android:focusable="false"
+            android:padding="10dp" />
 
         <LinearLayout
             android:orientation="horizontal"
