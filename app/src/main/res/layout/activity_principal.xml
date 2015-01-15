@@ -1,0 +1,62 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Principal">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+        <EditText
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:inputType="none"
+            android:ems="10"
+            android:id="@+id/tv"
+            android:layout_weight="1"
+            android:textAlignment="gravity"
+            android:editable="false"
+            android:gravity="bottom"
+            android:background="@drawable/background"
+            android:focusable="false" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="8"
+            android:layout_marginBottom="5dp">
+
+            <ImageButton
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:id="@+id/ibHablar"
+                android:layout_weight="4"
+                android:background="@null"
+                android:src="@drawable/ic_action_mic"
+                android:onClick="hablarReproducir"
+                android:tag="mic" />
+
+            <EditText
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:inputType="textMultiLine"
+                android:ems="10"
+                android:id="@+id/et"
+                android:layout_weight="1" />
+
+            <ImageButton
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:id="@+id/ibEnviar"
+                android:layout_weight="4"
+                android:src="@drawable/ic_action_send_now"
+                android:background="@null"
+                android:onClick="enviar" />
+        </LinearLayout>
+    </LinearLayout>
+</RelativeLayout>
